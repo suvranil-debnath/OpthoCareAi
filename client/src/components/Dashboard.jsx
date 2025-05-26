@@ -4,6 +4,10 @@ import ReactMarkdown from 'react-markdown';
 import { FaSun, FaMoon, FaPaperPlane, FaCamera, FaTrash, FaSignOutAlt, FaCheck, FaTimes } from 'react-icons/fa';
 import './Dashboard.css';
 import logo from '../assets/logo.svg';
+
+// Define your server URL here
+const SERVER_URL = "https://opthocareai.onrender.com";
+
 function Dashboard({ user, onLogout }) {
   const [messages, setMessages] = useState([
     { sender: 'bot', text: `Hello ${user.displayName}, I'm BetterSight, your ophthalmology assistant. How can I help with your eye health concerns today?` }
@@ -41,7 +45,7 @@ function Dashboard({ user, onLogout }) {
   const queryChatModel = async (prompt) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/chat",
+        `${SERVER_URL}/api/chat`,
         {
           userId: user.uid,
           message: prompt
@@ -61,7 +65,7 @@ function Dashboard({ user, onLogout }) {
   const analyzeImageWithAI = async (base64Image) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/analyze-image",
+        `${SERVER_URL}/api/analyze-image`,
         {
           userId: user.uid,
           imageBase64: base64Image
@@ -88,7 +92,7 @@ function Dashboard({ user, onLogout }) {
       const position = await getCurrentPosition();
       const { latitude, longitude } = position.coords;
 
-      const response = await axios.get("http://localhost:5000/api/nearby-doctors", {
+      const response = await axios.get(`${SERVER_URL}/api/nearby-doctors`, {
         params: {
           lat: latitude,
           lng: longitude,
@@ -176,7 +180,7 @@ function Dashboard({ user, onLogout }) {
 
   const handleClearChat = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/clear-chat", {
+      const response = await axios.post(`${SERVER_URL}/api/clear-chat`, {
         userId: user.uid
       });
       
@@ -260,139 +264,139 @@ function Dashboard({ user, onLogout }) {
 
   return (
     <div className='container'>
-    <div className={`dashboard ${darkMode ? 'dark' : ''}`}>
-      <div className="chat-container">
-        <div className="chat-header">
-          <div className="header-left">
-            <img src={logo} alt="OphthoAI Logo" className="logo-img"/>
-            <h2>BetterSight</h2>
-          </div>
-          <div className="header-right">
-            <div className="user-avatar">
-              {user.photoURL ? (
-                <img src={user.photoURL} alt="User profile" />
-              ) : (
-                <div className="avatar-fallback">
-                  {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
-                </div>
-              )}
+      <div className={`dashboard ${darkMode ? 'dark' : ''}`}>
+        <div className="chat-container">
+          <div className="chat-header">
+            <div className="header-left">
+              <img src={logo} alt="OphthoAI Logo" className="logo-img"/>
+              <h2>BetterSight</h2>
             </div>
-            <button className="theme-toggle" onClick={toggleTheme}>
-              {darkMode ? <FaSun /> : <FaMoon />}
-            </button>
-            <button className="clear-chat-btn" onClick={handleClearChat}>
-              <FaTrash />
-            </button>
-            <button className="logout-btn" onClick={onLogout}>
-              <FaSignOutAlt />
-            </button>
-          </div>
-        </div>
-        
-        <div className="chat-messages">
-          {messages.map((msg, index) => (
-            <div key={index} className={`message ${msg.sender} ${msg.isAnalysis ? 'analysis' : ''}`}>
-              {msg.isImage ? (
-                <div className="image-message">
-                  <img src={msg.imageUrl} alt="User uploaded eye" className="eye-image" />
-                  <div className="image-caption">Eye photo submitted</div>
-                </div>
-              ) : (
-                <div className="message-content">
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                </div>
-              )}
-            </div>
-          ))}
-          
-          {showDoctorPrompt && (
-            <div className="doctor-prompt">
-              <p>Would you like me to show nearby eye specialists?</p>
-              <div className="prompt-buttons">
-                <button onClick={() => handleShowDoctors(true)}>
-                  <FaCheck /> Yes, please
-                </button>
-                <button onClick={() => handleShowDoctors(false)}>
-                  <FaTimes /> Not now
-                </button>
-              </div>
-            </div>
-          )}
-          
-          {doctorResults && (
-            <div className="doctor-results">
-              <div className="doctors-list">
-                {doctorResults.map((doctor, index) => (
-                  <div key={index} className="doctor-card">
-                    <h4>{doctor.name}</h4>
-                    <p><strong>Specialty:</strong> {doctor.specialty}</p>
-                    <p><strong>Address:</strong> {doctor.address}</p>
-                    <p><strong>Distance:</strong> {doctor.distance}</p>
-                    <p><strong>Phone:</strong> {doctor.phone}</p>
+            <div className="header-right">
+              <div className="user-avatar">
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="User profile" />
+                ) : (
+                  <div className="avatar-fallback">
+                    {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
                   </div>
-                ))}
+                )}
               </div>
-              {mapUrl && (
-                <div className="map-container">
-                  <iframe
-                    title="Eye Specialists Near You"
-                    width="100%"
-                    height="300"
-                    frameBorder="0"
-                    style={{ border: 0 }}
-                    src={mapUrl}
-                    allowFullScreen
-                  />
-                </div>
-              )}
+              <button className="theme-toggle" onClick={toggleTheme}>
+                {darkMode ? <FaSun /> : <FaMoon />}
+              </button>
+              <button className="clear-chat-btn" onClick={handleClearChat}>
+                <FaTrash />
+              </button>
+              <button className="logout-btn" onClick={onLogout}>
+                <FaSignOutAlt />
+              </button>
             </div>
-          )}
+          </div>
           
-          {(isTyping || isAnalyzing) && (
-            <div className="typing-indicator">
-              <div className="typing-dot"></div>
-              <div className="typing-dot"></div>
-              <div className="typing-dot"></div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-        </div>
-        
-        <div className="chat-input-area">
-          {showImageUpload && !isAnalyzing && (
-            <div className="file-upload-container">
-              <label htmlFor="eye-upload" className="upload-button">
-                <FaCamera /> Upload Eye Photo
-              </label>
-              <input 
-                id="eye-upload"
-                type="file" 
-                accept="image/*" 
-                onChange={(e) => handleEyePhotoUpload(e.target.files[0])}
+          <div className="chat-messages">
+            {messages.map((msg, index) => (
+              <div key={index} className={`message ${msg.sender} ${msg.isAnalysis ? 'analysis' : ''}`}>
+                {msg.isImage ? (
+                  <div className="image-message">
+                    <img src={msg.imageUrl} alt="User uploaded eye" className="eye-image" />
+                    <div className="image-caption">Eye photo submitted</div>
+                  </div>
+                ) : (
+                  <div className="message-content">
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  </div>
+                )}
+              </div>
+            ))}
+            
+            {showDoctorPrompt && (
+              <div className="doctor-prompt">
+                <p>Would you like me to show nearby eye specialists?</p>
+                <div className="prompt-buttons">
+                  <button onClick={() => handleShowDoctors(true)}>
+                    <FaCheck /> Yes, please
+                  </button>
+                  <button onClick={() => handleShowDoctors(false)}>
+                    <FaTimes /> Not now
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            {doctorResults && (
+              <div className="doctor-results">
+                <div className="doctors-list">
+                  {doctorResults.map((doctor, index) => (
+                    <div key={index} className="doctor-card">
+                      <h4>{doctor.name}</h4>
+                      <p><strong>Specialty:</strong> {doctor.specialty}</p>
+                      <p><strong>Address:</strong> {doctor.address}</p>
+                      <p><strong>Distance:</strong> {doctor.distance}</p>
+                      <p><strong>Phone:</strong> {doctor.phone}</p>
+                    </div>
+                  ))}
+                </div>
+                {mapUrl && (
+                  <div className="map-container">
+                    <iframe
+                      title="Eye Specialists Near You"
+                      width="100%"
+                      height="300"
+                      frameBorder="0"
+                      style={{ border: 0 }}
+                      src={mapUrl}
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+            
+            {(isTyping || isAnalyzing) && (
+              <div className="typing-indicator">
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+                <div className="typing-dot"></div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+          
+          <div className="chat-input-area">
+            {showImageUpload && !isAnalyzing && (
+              <div className="file-upload-container">
+                <label htmlFor="eye-upload" className="upload-button">
+                  <FaCamera /> Upload Eye Photo
+                </label>
+                <input 
+                  id="eye-upload"
+                  type="file" 
+                  accept="image/*" 
+                  onChange={(e) => handleEyePhotoUpload(e.target.files[0])}
+                  disabled={isTyping || isAnalyzing}
+                />
+              </div>
+            )}
+            
+            <div className="text-input-container">
+              <input
+                type="text"
+                value={inputMessage}
+                onChange={(e) => setInputMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && !isTyping && !isAnalyzing && handleSendMessage()}
+                placeholder="Ask about eye health or vision concerns..."
                 disabled={isTyping || isAnalyzing}
               />
+              <button 
+                onClick={handleSendMessage} 
+                disabled={isTyping || isAnalyzing || !inputMessage.trim()}
+              >
+                <FaPaperPlane />
+              </button>
             </div>
-          )}
-          
-          <div className="text-input-container">
-            <input
-              type="text"
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && !isTyping && !isAnalyzing && handleSendMessage()}
-              placeholder="Ask about eye health or vision concerns..."
-              disabled={isTyping || isAnalyzing}
-            />
-            <button 
-              onClick={handleSendMessage} 
-              disabled={isTyping || isAnalyzing || !inputMessage.trim()}
-            >
-              <FaPaperPlane />
-            </button>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
