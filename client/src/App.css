@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #4b6f92;
+  scroll-behavior: smooth;
+}
+
+.scoll-pane {
+  overflow: auto;
+  width: 20vw;
+  height: 20vh;
+  background: hsl(200 10% 97%);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar {
+  width: 12px; /* Mostly for vertical scrollbars */
+  height: 12px; /* Mostly for horizontal scrollbars */
+}
+::-webkit-scrollbar-thumb { /* Foreground */
+  background: var(--scrollbar-foreground);
+  background: #a7aac4;
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track { /* Background */
+  background: var(--scrollbar-background);
+  background: transparent;
+}
