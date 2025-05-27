@@ -1,6 +1,4 @@
-#![BetterSight Banner](client/src/assets/logo.svg) BetterSight: Your Personal Ophthalmology Assistant
-
-![BetterSight Banner](client/src/assets/banner.png)
+#![BetterSight Banner](client/src/assets/logo.svg) **BetterSight**: Your Personal Ophthalmology Assistant
 
 Welcome to **BetterSight** – an AI-powered web application that helps users analyze retinal images, chat about eye health, and find nearby eye specialists.  
 Empowering you to take charge of your eye health, anytime, anywhere.
