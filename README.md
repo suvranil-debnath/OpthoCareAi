@@ -1,4 +1,7 @@
-#![BetterSight Banner](client/src/assets/logo.svg) **BetterSight**: Your Personal Ophthalmology Assistant
+<p align="left">
+  <img src="client/src/assets/logo.svg" alt="BetterSight Logo" height="48"/>
+  <span style="font-size:2rem; vertical-align:middle;"><b>BetterSight</b>: Your Personal Ophthalmology Assistant</span>
+</p>
 
 Welcome to **BetterSight** – an AI-powered web application that helps users analyze retinal images, chat about eye health, and find nearby eye specialists.  
 Empowering you to take charge of your eye health, anytime, anywhere.
@@ -74,14 +77,6 @@ cd ../retinal_disease_api
 pip install -r requirements.txt
 uvicorn retina_api.main:app --reload
 ```
-
----
-
-## 🖼️ Screenshots
-
-| Dashboard | AI Analysis | Doctor Finder |
-|-----------|-------------|---------------|
-| ![Dashboard](client/src/assets/banner.png) | ![AI Analysis](client/src/assets/robot.png) | ![Doctor Finder](client/src/assets/doctor.png) |
 
 ---
 
