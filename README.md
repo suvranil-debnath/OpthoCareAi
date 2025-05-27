@@ -1,4 +1,4 @@
-# (client/src/assets/logo.svg) BetterSight: Your Personal Ophthalmology Assistant
+#![BetterSight Banner](client/src/assets/logo.svg) BetterSight: Your Personal Ophthalmology Assistant
 
 ![BetterSight Banner](client/src/assets/banner.png)
 
