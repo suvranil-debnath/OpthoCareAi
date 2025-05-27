@@ -11,6 +11,7 @@
 </p>
 
 ---
+## Demo : https://opthocareai.netlify.app/
 
 ## 🚀 Features
 
@@ -39,11 +40,6 @@ client/                # React frontend
     components/        # React components (Dashboard, LandingPage, etc.)
     assets/            # Images and icons
   public/
-retinal_disease_api/   # Python FastAPI backend for AI analysis
-  retina_api/
-    main.py            # API endpoints
-    model.py           # Model loading and inference
-    models/            # Pretrained model files (.h5)
 server/                # Node.js/Express backend for chat, user, and doctor APIs
 ```
 
@@ -74,16 +70,6 @@ npm install
 npm start
 ```
 
-### 4. Setup the AI Backend
-
-```sh
-cd ../retinal_disease_api
-pip install -r requirements.txt
-uvicorn retina_api.main:app --reload
-```
-
----
-
 ## ⚙️ Configuration
 
 - **Frontend:**  
@@ -91,8 +77,6 @@ uvicorn retina_api.main:app --reload
 - **Backend:**  
   Set environment variables in `server/.env` for API keys and ports.
 - **AI Model:**  
-  Place your `.h5` model files in `retinal_disease_api/retina_api/models/`.
-
 ---
 
 ## 🤝 Contributing
@@ -103,7 +87,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MSIT License.
 
 ---
 
