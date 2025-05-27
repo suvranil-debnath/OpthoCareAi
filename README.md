@@ -1,10 +1,14 @@
-<p align="left">
-  <img src="client/src/assets/logo.svg" alt="BetterSight Logo" height="48"/>
-  <span style="font-size:2rem; vertical-align:middle;"><b>BetterSight</b>: Your Personal Ophthalmology Assistant</span>
+<p align="center">
+  <img src="client/src/assets/logo.svg" alt="BetterSight Logo" height="64">
 </p>
 
-Welcome to **BetterSight** – an AI-powered web application that helps users analyze retinal images, chat about eye health, and find nearby eye specialists.  
-Empowering you to take charge of your eye health, anytime, anywhere.
+<h1 align="center"><b>BetterSight</b></h1>
+<h3 align="center">Your Personal Ophthalmology Assistant</h3>
+
+<p align="center">
+  Empowering you to take charge of your eye health, anytime, anywhere.<br>
+  <i>An AI-powered web application for retinal image analysis, eye health chat, and doctor recommendations.</i>
+</p>
 
 ---
 
