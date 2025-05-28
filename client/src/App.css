@@ -1,9 +1,126 @@
-body {
-  font-family: Arial, sans-serif;
+
+/* Font imports */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+:root {
+  --primary: #4a6fa5;
+  --primary-dark: #3a5a80;
+  --secondary: #ff7043;
+  --dark: #2b5876;
+  --light: #f5f7fa;
+  --white: #ffffff;
+  --gray: #e0e0e0;
+  --text: #333333;
+    
+  /* Chatbot variables - prefixed with 'chat-' */
+  --chat-primary-color: #5b6abf;
+  --chat-primary-light: #7d8fd3;
+  --chat-primary-dark: #3a4a9a;
+  --chat-secondary-color: #ff7e5f;
+  --chat-text-color: #2d3748;
+  --chat-text-light: #4a5568;
+  --chat-text-lighter: #718096;
+  --chat-bg-color: #f8faff;
+  --chat-card-bg: #ffffff;
+  --chat-border-color: #e2e8f0;
+  --chat-shadow-color: rgba(0, 0, 0, 0.05);
+  --chat-success-color: #48bb78;
+  --chat-warning-color: #ed8936;
+  --chat-error-color: #f56565;
+  --chat-info-color: #4299e1;
+}
+
+/* Dark Theme Variables - prefixed with 'chat-' */
+.dark {
+  --chat-primary-color: #667eea;
+  --chat-primary-light: #7c93f1;
+  --chat-primary-dark: #5a67d8;
+  --chat-secondary-color: #ff7e5f;
+  --chat-text-color: #f7fafc;
+  --chat-text-light: #e2e8f0;
+  --chat-text-lighter: #cbd5e0;
+  --chat-bg-color: #1a202c;
+  --chat-card-bg: #2d3748;
+  --chat-border-color: #4a5568;
+  --chat-shadow-color: rgba(0, 0, 0, 0.2);
+
+}
+
+.cta-button {
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.primary-button {
+  background-color: var(--secondary);
+  color: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 1.3rem;
+  justify-self: anchor-center;
+}
+
+.primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.primary-button.large {
+  padding: 1.2rem 2.5rem;
+  font-size: 1.1rem;
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: var(--white);
+  padding: 19px 17px 10px 17px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 2px solid var(--white);
+  transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+  background-color: rgba(255,255,255,0.1);
+}
+
+
+/* Base styles that apply globally */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background: #4b6f92;
-  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .primary-button, .secondary-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+  }
 }
 
 .scoll-pane {

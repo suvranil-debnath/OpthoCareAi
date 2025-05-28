@@ -1,0 +1,133 @@
+.hero-section {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  padding: 20px 5% 0;
+  position: relative;
+  min-height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  max-width: 1200px;
+  padding: 10px 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+  margin-right: 10px;
+}
+
+/* Add these styles to HeroSection.css */
+.profile-button {
+  background: none;
+  border: none;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+
+.profile-pic {
+  width: 60%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.hero-banner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-around;
+  max-width: 1200px;
+  flex: 1;
+}
+
+.hero-content {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  margin-bottom: 46px;
+}
+
+.hero-content h1 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.hero-content h1 span {
+  color: var(--secondary);
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+
+
+.hero-image {
+  flex: 1;
+  min-width: 300px;
+  width: 100%;
+}
+
+.hero-image img {
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 3rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-buttons {
+    justify-content: center;
+  }
+  
+}
+
+@media (max-width: 480px) {
+  .cta-button {
+    padding:12px 10px !important;
+    font-size: 15px !important;
+    width: 80px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-content p {
+    font-size: 1rem;
+  }
+}
