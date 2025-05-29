@@ -61,7 +61,7 @@ const FeaturesSection = ({ toggleChatbot }) => {
           showThumbs={false}
           infiniteLoop
           autoPlay
-          interval={5000}
+          interval={3000}
         >
           {predictionCards.map((card) => (
             <div key={card.id} className="prediction-card" onClick={() => handlePredictionClick(card.id)}>
