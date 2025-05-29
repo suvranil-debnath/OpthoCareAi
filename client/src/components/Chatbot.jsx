@@ -4,9 +4,8 @@ import ReactMarkdown from 'react-markdown';
 import { FaSun, FaMoon, FaPaperPlane, FaCamera, FaTrash, FaSignOutAlt, FaCheck, FaTimes } from 'react-icons/fa';
 import './Chatbot.css';
 import logo from '../assets/logo.svg';
+import { SERVER_URL } from '../main'; 
 
-// Define your server URL here
-const SERVER_URL = "https://opthocareai.onrender.com";
 
 function Chatbot({ user, onLogout }) {
   const [messages, setMessages] = useState([

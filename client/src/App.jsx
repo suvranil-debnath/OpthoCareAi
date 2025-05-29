@@ -115,6 +115,21 @@ function App() {
               )
             } 
           />
+          <Route 
+            path="/predict/hypertension" 
+            element={
+              user ? (
+                <PredictionPage 
+                  user={user} 
+                  modelType="hypertension" 
+                  title="Hypertension Retinopathy" 
+                  description="Detect eye damage from high blood pressure"
+                />
+              ) : (
+                <Navigate to="/" state={{ from: '/predict/hypertension' }} />
+              )
+            } 
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

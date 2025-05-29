@@ -31,8 +31,9 @@ const FeaturesSection = ({ toggleChatbot }) => {
   const predictionCards = [
     { id: 'amd', title: 'AMD Detection', description: 'Check for Age-related Macular Degeneration', icon: 'fas fa-eye' },
     { id: 'dr', title: 'Diabetic Retinopathy', description: 'Detect diabetes-related eye damage', icon: 'fas fa-bolt' },
-    { id: 'glaucoma', title: 'Glaucoma Screening', description: 'Early glaucoma risk detection', icon: 'fas fa-cloud' }
-  ];
+    { id: 'glaucoma', title: 'Glaucoma Screening', description: 'Early glaucoma risk detection', icon: 'fas fa-cloud' },
+    { id: 'hypertension', title: 'Hypertension Retinopathy', description: 'Detect eye damage from high blood pressure', icon: 'fas fa-heartbeat' }
+];
 
   return (
     <section id="features" className="features-section">
