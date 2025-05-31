@@ -5,6 +5,9 @@ import html2canvas from 'html2canvas';
 import ReactMarkdown from 'react-markdown';
 import './PredictionPage.css';
 import { SERVER_URL } from '../main';
+import RetinaPhotoGuide from './RetinaPhotoGuide';
+
+
 
 const PredictionPage = ({ user, modelType, title, description }) => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -155,7 +158,10 @@ const downloadPrescription = async () => {
 
 
   return (
+    <>
+    
     <div className="prediction-page">
+      <RetinaPhotoGuide/>
       <div className="prediction-container">
         <h2>{title}</h2>
         <p className="description">{description}</p>
@@ -228,6 +234,7 @@ const downloadPrescription = async () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

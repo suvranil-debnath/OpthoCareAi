@@ -130,6 +130,21 @@ function App() {
               )
             } 
           />
+          <Route 
+            path="/predict/cataract" 
+            element={
+              user ? (
+                <PredictionPage 
+                  user={user} 
+                  modelType="cataract" 
+                  title="Cataract Detection" 
+                  description="Identify lens clouding and cataract formation"
+                />
+              ) : (
+                <Navigate to="/" state={{ from: '/predict/hypertension' }} />
+              )
+            } 
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

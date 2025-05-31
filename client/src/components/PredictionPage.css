@@ -1,8 +1,9 @@
 .prediction-page {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
   padding: 2rem;
-  min-height: calc(100vh - 4rem);
   background: linear-gradient(135deg, #f0f9ff 0%, #f8f9fa 100%);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -17,7 +18,7 @@
   border: 1px solid rgba(0, 150, 180, 0.1);
 }
 
-h2 {
+.prediction-page .prediction-container h2{
   color: #006064;
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -26,7 +27,7 @@ h2 {
   padding-bottom: 0.5rem;
 }
 
-h2::after {
+.prediction-page .prediction-container h2::after {
   content: '';
   position: absolute;
   bottom: 0;

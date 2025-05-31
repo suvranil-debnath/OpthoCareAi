@@ -5,6 +5,7 @@ import { FaSun, FaMoon, FaPaperPlane, FaCamera, FaTrash, FaSignOutAlt, FaCheck, 
 import './Chatbot.css';
 import logo from '../assets/logo.svg';
 import { SERVER_URL } from '../main'; 
+import { useNavigate } from 'react-router-dom';
 
 
 function Chatbot({ user, onLogout }) {
@@ -260,13 +261,17 @@ function Chatbot({ user, onLogout }) {
       setIsAnalyzing(false);
     }
   };
+  const navigate = useNavigate();
+  const homepage = () => {
+    navigate('/');
+  };
 
   return (
     <div className='container'>
       <div className={`chatbot ${darkMode ? 'dark' : ''}`}>
         <div className="chat-container">
           <div className="chat-header">
-            <div className="header-left">
+            <div className="header-left" onClick={() => homepage()}>
               <img src={logo} alt="OphthoAI Logo" className="logo-img"/>
               <h2>BetterSight</h2>
             </div>
