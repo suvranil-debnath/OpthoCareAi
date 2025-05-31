@@ -1,5 +1,5 @@
 import React from 'react';
-import './RetinaPhotoguide.css';
+import './rpg.css';
 import guideImage from '../assets/guide.png'; // Make sure the image is in the same folder or update path accordingly
 
 const RetinaPhotoguide = () => {
