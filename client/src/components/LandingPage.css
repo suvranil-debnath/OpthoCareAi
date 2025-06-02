@@ -3,7 +3,7 @@
 /* Floating Chatbot Button */
 .floating-chatbot-button {
   position: fixed;
-  bottom: 30px;
+  bottom: 20px;
   right: 30px;
   width: 60px;
   height: 60px;
@@ -27,13 +27,13 @@
 /* Chatbot Floating Container */
 .chatbot-floating-container {
   position: fixed;
-  bottom: 100px;
+  bottom: 86px;
   right: 30px;
   width: 500px;
-  max-height: 630px;
+  max-height: 620px;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  background: white;
+  background: rgba(0, 0, 0, 0.237);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -44,14 +44,10 @@
     display: flex;
     align-self: flex-end;
     border: none;
-    padding: 8px;
-    margin-right: 5px;
+    padding: 10px 16px;
     background: none;
 }
 
-.chatbot-full-button:hover {
-  background: #3a5a9b;
-}
 .chatbot-fullscreen-container{
   height: 100vh;
 }
@@ -71,7 +67,6 @@
   width: 100%;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  background: white;
   z-index: 1000;
   display: flex;
   flex-direction: column;

@@ -267,7 +267,7 @@ function Chatbot({ user, onLogout }) {
   };
 
   return (
-    <div className='container'>
+    <div className={`container ${darkMode ? 'dark' : ''}`}>
       <div className={`chatbot ${darkMode ? 'dark' : ''}`}>
         <div className="chat-container">
           <div className="chat-header">

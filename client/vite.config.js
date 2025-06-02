@@ -3,17 +3,18 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    historyApiFallback: true, // ✅ Ensures SPA fallback routing on refresh in dev
+  },
   build: {
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            // Extract each dependency into its own chunk
             return id
               .toString()
               .split('node_modules/')[1]
-              .split('/')[0]
-              .toString();
+              .split('/')[0];
           }
         },
       },

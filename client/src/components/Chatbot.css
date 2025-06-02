@@ -5,10 +5,14 @@
   align-items: center;
   height: 100%;
   justify-content: center;
+  background-color: var(--chat-bg-color);
 }
 
 .chatbot {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   margin: 0 auto;
   height: 100%;
   padding: 20px;
@@ -21,6 +25,8 @@
 .chat-container {
   display: flex;
   max-height: 571px;
+  max-width: 800px;
+  height: 100%;
   flex-direction: column;
   background: var(--chat-card-bg);
   border-radius: 16px;
