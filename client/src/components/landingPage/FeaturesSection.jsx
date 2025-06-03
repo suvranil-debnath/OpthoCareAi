@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Carousel } from 'react-responsive-carousel';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { checkAndConsumeTrial, updateSubscriptionStatus } from '../../utils/trialUtils';
 import { SERVER_URL } from '../../main';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -20,18 +22,18 @@ const FeaturesSection = ({ toggleChatbot }) => {
       checkTrialStatus(userData.uid);
     }
   }, []);
+
   const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.onload = () => {
-      resolve();
-    };
-    script.onerror = () => {
-      throw new Error('Failed to load Razorpay script');
-    };
-    document.body.appendChild(script);
-  });
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve();
+      script.onerror = () => {
+        toast.error('Failed to load Razorpay script');
+        throw new Error('Failed to load Razorpay script');
+      };
+      document.body.appendChild(script);
+    });
   };
 
   const checkTrialStatus = async (userId) => {
@@ -41,12 +43,13 @@ const FeaturesSection = ({ toggleChatbot }) => {
       setHasTrialsLeft(result.trail_count > 0);
     } catch (error) {
       console.error('Error checking trial status:', error);
+      toast.error('Failed to check trial status');
     }
   };
 
   const handlePredictionClick = async (diseaseType) => {
     if (!user) {
-      alert('Please login to use this feature');
+      toast.info('Please login to use this feature');
       return;
     }
 
@@ -58,97 +61,89 @@ const FeaturesSection = ({ toggleChatbot }) => {
     const result = await checkAndConsumeTrial(user.uid);
     if (result.allowed) {
       setHasTrialsLeft(result.trail_count > 0);
-      navigate(`/predict/${diseaseType}`);
+      toast.success(result.message);
+      setTimeout(() => {
+        navigate(`/predict/${diseaseType}`);
+      }, 2000);
     } else {
-      alert(result.message);
+      toast.error(result.message);
       setHasTrialsLeft(false);
     }
   };
 
   const initiateSubscription = async () => {
-  if (!user) {
-    alert('Please login to subscribe');
-    return;
-  }
+    if (!user) {
+      toast.info('Please login to subscribe');
+      return;
+    }
 
-  setIsLoading(true);
-  try {
-    // Load Razorpay script first
-    await loadRazorpayScript();
+    setIsLoading(true);
+    try {
+      await loadRazorpayScript();
 
-    // Step 1: Create order
-    const response = await fetch(`${SERVER_URL}/api/create-order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: 1899 }), // Your subscription amount
-    });
+      const response = await fetch(`${SERVER_URL}/api/create-order`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: 1899 }),
+      });
 
-    const orderData = await response.json();
+      const orderData = await response.json();
 
-    // Step 2: Open Razorpay checkout
-    const options = {
-      key: "rzp_test_glhF13Fdod0C1P",
-      amount: orderData.amount,
-      currency: orderData.currency,
-      name: 'OphthoCare',
-      description: 'Premium Subscription',
-      order_id: orderData.orderId,
-      handler: async function (response) {
-        try {
-          // Step 3: Verify payment
-          const verificationResponse = await fetch(`${SERVER_URL}/api/verify-payment`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            }),
-          });
+      const options = {
+        key: "rzp_test_glhF13Fdod0C1P",
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'OphthoCare',
+        description: 'Premium Subscription',
+        order_id: orderData.orderId,
+        handler: async function (response) {
+          try {
+            const verificationResponse = await fetch(`${SERVER_URL}/api/verify-payment`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              }),
+            });
 
-          const verificationData = await verificationResponse.json();
-          if (verificationData.success) {
-            // Step 4: Update subscription status in Firebase
-            await updateSubscriptionStatus(user.uid);
-            setHasSubscription(true);
-            alert('Subscription successful! You can now access all features.');
-          } else {
-            alert('Payment verification failed. Please try again.');
+            const verificationData = await verificationResponse.json();
+            if (verificationData.success) {
+              await updateSubscriptionStatus(user.uid);
+              setHasSubscription(true);
+              toast.success('Subscription successful! You can now access all features.');
+            } else {
+              toast.error('Payment verification failed. Please try again.');
+            }
+          } catch (error) {
+            console.error('Payment processing error:', error);
+            toast.error('Error processing payment. Please contact support.');
           }
-        } catch (error) {
-          console.error('Payment processing error:', error);
-          alert('Error processing payment. Please contact support.');
-        }
-      },
-      prefill: {
-        name: user.name || '',
-        email: user.email || '',
-      },
-      theme: {
-        color: '#4f46e5',
-      },
-    };
+        },
+        prefill: {
+          name: user.name || '',
+          email: user.email || '',
+        },
+        theme: { color: '#4f46e5' },
+      };
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
-  } catch (error) {
-    console.error('Subscription error:', error);
-    alert('Failed to initiate subscription. Please try again.');
-  } finally {
-    setIsLoading(false);
-  }
-};
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Subscription error:', error);
+      toast.error('Failed to initiate subscription. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleChatbotClick = async () => {
     if (!user) {
-      alert('Please login to use the chatbot');
+      toast.info('Please login to use the chatbot');
       return;
     }
-    
+
     if (hasSubscription) {
       toggleChatbot();
       return;
@@ -157,28 +152,26 @@ const FeaturesSection = ({ toggleChatbot }) => {
     const result = await checkAndConsumeTrial(user.uid);
     if (result.allowed) {
       setHasTrialsLeft(result.trail_count > 0);
+      toast.success(result.message);
       toggleChatbot();
     } else {
-      alert(result.message);
+      toast.error(result.message);
       setHasTrialsLeft(false);
     }
   };
 
   const handleSpecialistClick = () => {
     if (!user) {
-      alert('Please login to find specialists');
+      toast.info('Please login to find specialists');
       return;
     }
-    alert('Specialist finder coming soon!');
+    toast.info('Specialist finder coming soon!');
   };
 
   const renderActionButton = (diseaseType) => {
     if (!user) {
       return (
-        <button 
-          className="primary-button" 
-          onClick={() => alert('Please login to use this feature')}
-        >
+        <button className="primary-button" onClick={() => toast.info('Please login to use this feature')}>
           Try Now
         </button>
       );
@@ -186,10 +179,7 @@ const FeaturesSection = ({ toggleChatbot }) => {
 
     if (hasSubscription) {
       return (
-        <button 
-          className="primary-button" 
-          onClick={() => navigate(`/predict/${diseaseType}`)}
-        >
+        <button className="primary-button" onClick={() => navigate(`/predict/${diseaseType}`)}>
           Let's Go!
         </button>
       );
@@ -197,21 +187,14 @@ const FeaturesSection = ({ toggleChatbot }) => {
 
     if (hasTrialsLeft) {
       return (
-        <button 
-          className="primary-button" 
-          onClick={() => handlePredictionClick(diseaseType)}
-        >
+        <button className="primary-button" onClick={() => handlePredictionClick(diseaseType)}>
           Try Now
         </button>
       );
     }
 
     return (
-      <button 
-        className="primary-button" 
-        onClick={initiateSubscription}
-        disabled={isLoading}
-      >
+      <button className="primary-button" onClick={initiateSubscription} disabled={isLoading}>
         {isLoading ? 'Processing...' : 'Subscribe'}
       </button>
     );
@@ -251,7 +234,7 @@ const FeaturesSection = ({ toggleChatbot }) => {
           showThumbs={false}
           infiniteLoop
           autoPlay
-          interval={5000}
+          interval={3000}
         >
           {predictionCards.map((card) => (
             <div key={card.id} className="prediction-card">
@@ -286,6 +269,8 @@ const FeaturesSection = ({ toggleChatbot }) => {
           </div>
         </div>
       </div>
+
+      
     </section>
   );
 };

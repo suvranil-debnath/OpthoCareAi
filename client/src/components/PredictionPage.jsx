@@ -163,7 +163,7 @@ const downloadPrescription = async () => {
     <div className="prediction-page">
       <RetinaPhotoGuide/>
       <div className="prediction-container">
-        <h2>{title}</h2>
+        <h2 className='predtitle'>{title}</h2>
         <p className="description">{description}</p>
         
         <div className="upload-section">
@@ -195,7 +195,7 @@ const downloadPrescription = async () => {
             >
               {isLoading ? (
                 <>
-                  <span className="spinner"></span>
+                  <span className="predspinner"></span>
                   Processing...
                 </>
               ) : 'Analyze Image'}

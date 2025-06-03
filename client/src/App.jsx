@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Chatbot from './components/Chatbot';
 import LandingPage from './components/LandingPage';
 import PredictionPage from './components/PredictionPage';
@@ -22,6 +25,7 @@ const App = () => {
   const handleSetUser = (userData) => {
     setUser(userData);
     localStorage.setItem('ophthocare-user', JSON.stringify(userData));
+     window.location.reload(); 
   };
 
   const handleLogout = () => {
@@ -34,16 +38,17 @@ const App = () => {
     if (user) {
       setShowChatbot(!showChatbot);
     } else {
-      alert('Please login to use the chatbot');
+      toast.error('Please login to use the chatbot');
     }
   };
 
   return (
     <>
       <div className="mainwrap">
+        <ToastContainer position="top-center" autoClose={3000} />
         {loading ? (
-         <Loading/>
-          ) : (
+          <Loading />
+        ) : (
           <BrowserRouter>
             <Routes>
               <Route 

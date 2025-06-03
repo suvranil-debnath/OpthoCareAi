@@ -1,6 +1,6 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, ref, set, get } from 'firebase/database';
 
 // Firebase config
 const firebaseConfig = {
@@ -18,7 +18,7 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 const database = getDatabase(app);
 
-// Google Sign-In and store user in Realtime Database
+// Google Sign-In and store user in Realtime Database (only if new)
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
@@ -31,20 +31,25 @@ export const signInWithGoogle = async () => {
       uid: user.uid,
     };
 
-    // Reference to user in Realtime Database
     const userRef = ref(database, 'Users/' + user.uid);
 
-    // Initial user object with additional fields
-    const newUserData = {
-      ...userData,
-      trail_count: 0,
-      Subscriber: false
-    };
+    // Check if user already exists
+    const snapshot = await get(userRef);
 
-    // Save user data
-    await set(userRef, newUserData);
+    if (!snapshot.exists()) {
+      // New user, initialize their data
+      const newUserData = {
+        ...userData,
+        trail_count: 5,
+        Subscriber: false,
+      };
 
-    return newUserData;
+      await set(userRef, newUserData);
+      return newUserData;
+    } else {
+      // User already exists, return existing data
+      return snapshot.val();
+    }
   } catch (error) {
     console.error('Google Sign-In Failed:', error);
     throw error;

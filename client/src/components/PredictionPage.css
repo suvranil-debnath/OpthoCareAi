@@ -18,7 +18,7 @@
   border: 1px solid rgba(0, 150, 180, 0.1);
 }
 
-.prediction-page .prediction-container h2{
+.predtitle{
   color: #006064;
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -136,7 +136,7 @@
   cursor: not-allowed;
 }
 
-.spinner {
+.predspinner {
   width: 16px;
   height: 16px;
   border: 3px solid rgba(255, 255, 255, 0.3);

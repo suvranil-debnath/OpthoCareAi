@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.jsx'
 
 
-export const SERVER_URL = "https://opthocareai.onrender.com"; // Update this to your server URL if needed
+export const SERVER_URL = "http://localhost:5000"; // Update this to your server URL if needed
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
